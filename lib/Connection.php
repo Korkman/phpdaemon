@@ -49,6 +49,7 @@ class Connection extends IOStream {
 	 */
 	public function onReady() {
 		if ($this->onConnected) {
+			Daemon::Log("onReady set connected to true");
 			$this->connected = true;
 			$this->onConnected->executeAll($this);
 			$this->onConnected = null;
@@ -80,6 +81,7 @@ class Connection extends IOStream {
 				$this->failed = true;
 				$this->onFailure();
 			}
+			#Daemon::Log("onFailureEvent set connected to false");
 			$this->connected = false;
 			parent::onFailureEvent($stream, $arg);
 		} catch (Exception $e) {

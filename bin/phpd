@@ -62,6 +62,7 @@ spl_autoload_register(function($classname) {
 
 // optional legacy framework hook
 include 'conf/CustomGlobals.php';
+class_exists('Debug');
 
 require 'lib/BinarySubstr.php';
 $e = null;

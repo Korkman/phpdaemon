@@ -24,7 +24,7 @@ class Request {
 	public $sendfp;
 	public $attrs;
 	public $shutdownFuncs = array();
-	public $running = FALSE;
+	public $running = false;
 	public $upstream;
 	public $ev;
 	public $sleepTime = 1000;
@@ -362,29 +362,22 @@ class Request {
 	 * Called when the request wakes up
 	 * @return void
 	 */
-	public function onWakeup() {
-		if (!Daemon::$compatMode) {
-			Daemon::$process->setStatus(2);
-		}
- 
+	public function onWakeup() { 
 		$this->running = true;
- 
 		Daemon::$req = $this;
 		Daemon::$context = $this;
+		Daemon::$process->setStatus(Daemon::WSTATE_BUSY);
 	}
  
 	/**
 	 * Called when the request starts sleep
 	 * @return void
 	 */
-	public function onSleep() { 
-		if (!Daemon::$compatMode) {
-			Daemon::$process->setStatus(1);
-		}
- 
-		Daemon::$req = NULL;
-		Daemon::$context = NULL;
-		$this->running = FALSE;
+	public function onSleep() {  
+		Daemon::$req = null;
+		Daemon::$context = null;
+		$this->running = false;
+		Daemon::$process->setStatus(Daemon::WSTATE_IDLE);
 	}	
  
 	/**
